@@ -98,18 +98,20 @@ class Game:
         self.game_over: bool = False
         self._last_space_time: int = 0
         self._double_tap_window: int = 300  # ms 内再按一次算双击
+        self._space_just_toggled: bool = False  # 防止取消暂停时误触发加速
         self.spawn_food()
 
     # ---- 食物 ----
     def spawn_food(self) -> None:
-        while True:
-            pos = (
-                random.randint(0, GRID_W - 1),
-                random.randint(0, GRID_H - 1),
-            )
-            if pos not in self.snake.body:
-                self.food = pos
-                return
+        """在随机空位上生成食物；若无空位（蛇已占满网格）则跳过。"""
+        empty = [
+            (x, y)
+            for x in range(GRID_W)
+            for y in range(GRID_H)
+            if (x, y) not in self.snake.body
+        ]
+        if empty:
+            self.food = random.choice(empty)
 
     # ---- 碰撞 ----
     def check_collision(self, pos: Tuple[int, int]) -> bool:
@@ -138,6 +140,7 @@ class Game:
                         # 双击 → 暂停/继续
                         if not self.game_over:
                             self.paused = not self.paused
+                            self._space_just_toggled = True
                         self._last_space_time = 0  # 重置，避免三击
                     else:
                         self._last_space_time = now
@@ -277,15 +280,21 @@ class Game:
         self.paused = False
         self.game_over = False
         self._last_space_time = 0  # 重置双击检测，防止重启后意外暂停
+        self._space_just_toggled = False
 
     def run(self) -> None:
 
         while True:
             self.handle_input()
 
-            # 空格按住 → 加速
+            # 空格按住 → 加速（但刚用空格切换暂停状态时忽略，防止误触发）
             keys = pygame.key.get_pressed()
-            fast_mode = keys[pygame.K_SPACE] and not self.paused and not self.game_over
+            if self._space_just_toggled:
+                if not keys[pygame.K_SPACE]:
+                    self._space_just_toggled = False
+                fast_mode = False
+            else:
+                fast_mode = keys[pygame.K_SPACE] and not self.paused and not self.game_over
 
             self.update()
 
@@ -303,4 +312,3 @@ class Game:
 
 if __name__ == "__main__":
     Game().run()
-
