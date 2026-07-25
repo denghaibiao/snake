@@ -303,14 +303,4 @@ class Game:
 
 if __name__ == "__main__":
     Game().run()
-    print('a')
-    print('b')
-    print('c')
-    print('d')
-    print('E')
-    print('F')
-    print('G')
-    print('H')
-    print(1111)
-    print(222)
-    print(3333)
+
