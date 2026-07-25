@@ -309,3 +309,4 @@ if __name__ == "__main__":
     print('d')
     print('E')
     print('F')
+    print('G')
