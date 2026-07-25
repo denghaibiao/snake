@@ -23,7 +23,7 @@ FAST_FPS: int = 20
 # 颜色
 BG_COLOR        = (24, 28, 32)       # 深色背景
 GRID_COLOR      = (34, 38, 42)       # 网格线
-FOOD_COLOR      = (200, 85, 85)      # 食物红色
+FOOD_COLOR      = (255, 85, 85)      # 食物红色
 HEAD_COLOR      = (80, 220, 80)      # 蛇头绿色
 BODY_COLOR      = (200, 60, 60)      # 蛇身红色
 EYE_WHITE_COLOR = (255, 255, 255)    # 眼白
@@ -306,3 +306,4 @@ if __name__ == "__main__":
     print('a')
     print('b')
     print('c')
+    print('d')
