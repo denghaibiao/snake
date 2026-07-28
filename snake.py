@@ -308,6 +308,7 @@ class Game:
 
             current_fps = FAST_FPS if fast_mode else FPS
             self.clock.tick(current_fps)
+            print(111)
 
 
 if __name__ == "__main__":
