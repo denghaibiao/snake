@@ -312,7 +312,4 @@ class Game:
 
 if __name__ == "__main__":
     Game().run()
-    print(11)
-    print(12)
-    print(13)
-    print(14)
+    print(10)
